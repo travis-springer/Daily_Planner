@@ -29,6 +29,7 @@ function startDay() {
     }
 }
 
+//Check for last day updated and reset if new day
 function checkLastDate() {
     if (localStorage.getItem("lastDate") === null) {
         localStorage.setItem("lastDate", currentDate)
@@ -50,29 +51,29 @@ dayHours.forEach(function (eachHour) {
     });
     $(".container").append(hourRow);
 
-    var hourField = $("<div>")
+    var hourLabel = $("<div>")
         .text(`${eachHour.hour}:00`)
         .attr({
             "class": "col-md-2 hour"
         });
 
-    var hourPlan = $("<div>")
+    var hourDesc = $("<div>")
         .attr({
             "class": "col-md-9 description p-0"
         });
-    var planData = $("<textarea>")
-    hourPlan.append(planData);
-    planData.attr("id", eachHour.id);
+    var hourNote = $("<textarea>")
+    hourDesc.append(hourNote);
+    hourNote.attr("id", eachHour.id);
     if (eachHour.hour < currentHour) {
-        planData.attr({
+        hourNote.attr({
             "class": "past notes"
         })
     } else if (eachHour.hour == currentHour) {
-        planData.attr({
+        hourNote.attr({
             "class": "present notes"
         })
     } else if (eachHour.hour > currentHour) {
-        planData.attr({
+        hourNote.attr({
             "class": "future notes"
         })
     }
@@ -83,16 +84,17 @@ dayHours.forEach(function (eachHour) {
             "class": "col-md-1 saveBtn"
         });
     savePlan.append(saveButton);
-    hourRow.append(hourField, hourPlan, savePlan);
+    hourRow.append(hourLabel, hourDesc, savePlan);
 
     dayHours.forEach(function (eachHour) {
         $(`#${eachHour.id}`).val(eachHour.notes);
     })
+})
 
-    $(".saveBtn").on("click", function (event) {
-        event.preventDefault();
-        var saveIndex = $(this).siblings(".description").children(".notes").attr("id");
-        dayHours[saveIndex].notes = $(this).siblings(".description").children(".notes").val();
-        localStorage.setItem("dayHours", JSON.stringify(dayHours));
-    })
+//Save button function
+$(".saveBtn").on("click", function (event) {
+    event.preventDefault();
+    var saveIndex = $(this).siblings(".description").children(".notes").attr("id");
+    dayHours[saveIndex].notes = $(this).siblings(".description").children(".notes").val();
+    localStorage.setItem("dayHours", JSON.stringify(dayHours));
 })
