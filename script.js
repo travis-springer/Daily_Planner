@@ -12,7 +12,6 @@ $("#currentDay").text(currentDate);
 
 //Create dayHours array
 function startDay() {
-    checkLastDate()
     if (localStorage.getItem("dayHours") === null) {
         for (i = 0; i < dayLength; i++) {
             var hourInfo = { id: hourID, hour: dayStart, notes: "" };
@@ -26,19 +25,6 @@ function startDay() {
         var storedNotes = JSON.parse(localStorage.getItem("dayHours"));
         dayHours = storedNotes;
         return;
-    }
-}
-
-//Check for last day updated and reset if new day
-function checkLastDate() {
-    if (localStorage.getItem("lastDate") === null) {
-        localStorage.setItem("lastDate", currentDate)
-    } else if (localStorage.getItem("lastDate") === currentDate) {
-        return;
-    } else {
-        dayHours = [];
-        localStorage.setItem("dayHours", dayHours);
-        localStorage.setItem("lastDate", currentDate);
     }
 }
 
