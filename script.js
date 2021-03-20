@@ -28,6 +28,8 @@ function startDay() {
     }
 }
 
+startDay();
+
 //Create schedule on page
 dayHours.forEach(function (eachHour) {
     var hourRow = $("<form>").attr({
@@ -82,5 +84,3 @@ $(".saveBtn").on("click", function (event) {
     dayHours[saveIndex].notes = $(this).siblings(".description").children(".notes").val();
     localStorage.setItem("dayHours", JSON.stringify(dayHours));
 })
-
-startDay();
